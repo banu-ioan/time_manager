@@ -1,0 +1,59 @@
+{% extends "::base.html.twig" %}
+
+{% block head %}
+    <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/acmedemo/css/demo.css') }}" />
+{% endblock %}
+
+{% block title 'Demo Bundle' %}
+
+{% block body %}
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-md-8">
+                {% block navigation %}
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" href="#">Home</a>
+                          </div>
+                    </nav>
+                {% endblock %}
+            </div>
+            <div class="col-md-4">
+                {% block user %}
+                
+                    {% if app.user.username is defined %}
+                        <p class="bg-success">Hi {{ app.user.username }}!</p>
+                    {% else %}
+                        <a href="{{ path('fos_user_security_login') }}">login</a>
+                    {% endif %}
+                        
+                    {% if app.user.getCurrentTask is not null %}
+                        You work now on {{ app.user.getCurrentTask.name }}
+                    {% else %}
+                        You have no task running now.
+                    {% endif %}   
+                        
+                {% endblock %}
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                {% for flashMessage in app.session.flashbag.get('notice') %}
+                    <div class="flash-message">
+                        <em>Notice</em>: {{ flashMessage }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+
+    </div>
+{% endblock %}

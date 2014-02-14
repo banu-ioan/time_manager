@@ -1,0 +1,53 @@
+parameters:
+#    ibanu_main.example.class: ibanu\MainBundle\Example
+
+services:
+#    ibanu_main.example:
+#        class: %ibanu_main.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    ibanu.form.type.project:
+        class: ibanu\MainBundle\Form\Type\ProjectType
+        tags:
+            - { name: form.type, alias: project }
+            
+    ibanu.form.type.task:
+        class: ibanu\MainBundle\Form\Type\TaskType
+        tags:
+            - { name: form.type, alias: task }
+            
+    ibanu.form.type.duration:
+        class: ibanu\MainBundle\Form\Type\DurationType
+        tags:
+            - { name: form.type, alias: duration }
+            
+    ibanu.filter_for_view:
+         class: ibanu\MainBundle\Service\Filter
+         arguments:
+             - @security.context
+             - @problematic.acl_manager
+             
+    ibanu.task_manager:
+         class: ibanu\MainBundle\Service\TaskManager
+         arguments:
+             - @doctrine_mongodb.odm.document_manager
+             
+    ibanu.converter.doctrine.mongodb:
+        class: Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter
+        arguments: [@doctrine_mongodb]
+        tags:
+            - { name: request.param_converter }
+            
+    ibanu.listener:
+        class: ibanu\MainBundle\EventListener\AddTaskToUser
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine_mongodb.odm.event_listener, event: preUpdate }
+        
+            
+#    project_voter:
+#        class: ibanu\MainBundle\Security\Authorization\Voter\ProjectVoter
+#        public: false
+#        arguments:
+#            - @doctrine_mongodb.odm.document_manager
+#        tags:
+#            - { name: security.voter }

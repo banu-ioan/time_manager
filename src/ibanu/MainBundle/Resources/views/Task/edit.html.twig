@@ -1,0 +1,11 @@
+{% extends 'ibanuMainBundle::layout.html.twig' %}
+
+{% set projectId = app.request.get('project').id %}
+
+{% block content %}
+    <h1>Edit project:</h1>
+    
+   {{ form(taskForm) }}
+    
+    <a href="{{ path('task_show_by_project', {'project': projectId}) }}">Tasks</a>
+{% endblock %}

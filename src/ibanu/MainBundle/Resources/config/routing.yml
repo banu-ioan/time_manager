@@ -1,0 +1,11 @@
+home:
+    resource: "@ibanuMainBundle/Controller/HomeController.php"
+    type:     annotation
+    
+project:
+    resource: "@ibanuMainBundle/Controller/ProjectController.php"
+    type:     annotation
+    
+task:
+    resource: "@ibanuMainBundle/Controller/TaskController.php"
+    type:     annotation

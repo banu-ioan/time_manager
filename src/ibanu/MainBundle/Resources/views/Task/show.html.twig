@@ -1,0 +1,48 @@
+{% extends 'ibanuMainBundle::layout.html.twig' %}
+
+{% set projectId = app.request.get('project').id %}
+
+{% block content %}
+    <h1>Tasks:</h1>
+    
+    <div class="table-responsive">
+        <table class="table table-hover ">
+            <tbody>
+            {% for task in tasks %}
+                <tr {% if task.isActive is defined and task.isActive %} class="success" {% endif %}>
+                    <td>
+                        {{ loop.index }}
+                    </td>
+                    <td>
+                        {{ task.name }}
+                    </td>
+                    <td>
+                        {{ task.description }} 
+                    </td>
+                    <td>
+                        {{ task.estimatedHours }} : {{ task.estimatedMinutes }}
+                    </td>
+                    <td>
+                        {{ task.workedHours }} : {{ task.workedMinutes }}
+                    </td>
+                    <td>
+                        <a class="btn btn-success" href="{{ path('task_start', {'project': projectId, 'task': task.id}) }}">Start</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" href="{{ path('task_stop', {'project': projectId, 'task': task.id}) }}">Stop</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('task_edit', {'project': projectId, 'task': task.id}) }}">Edit</a> 
+                    </td>
+                    <td>
+                        <a href="{{ path('task_delete', {'project': projectId, 'task': task.id}) }}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <a class="btn btn-primary btn-lg" href="{{ path('task_create', {'project': projectId}) }}">Add task</a>
+    <a class="btn btn-default btn-lg" href="{{ path('home') }}">Projects</a>
+{% endblock %}

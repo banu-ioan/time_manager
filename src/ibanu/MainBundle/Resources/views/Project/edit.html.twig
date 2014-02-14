@@ -1,0 +1,10 @@
+{% extends 'ibanuMainBundle::layout.html.twig' %}
+
+
+{% block body %}
+    <h1>Edit project:</h1>
+    
+   {{ form(projectForm) }}
+    
+    <a href="{{ path('home') }}">Home</a>
+{% endblock %}

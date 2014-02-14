@@ -1,0 +1,11 @@
+{% extends 'ibanuMainBundle::layout.html.twig' %}
+
+
+{% block content %}
+    
+    {{ render(controller('ibanuMainBundle:Project:show')) }}
+    
+    <a href="{{ path('project_create') }}">Add project</a>
+{% endblock %}
+
+    

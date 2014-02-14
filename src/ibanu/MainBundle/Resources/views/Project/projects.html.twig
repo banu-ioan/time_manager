@@ -1,0 +1,58 @@
+    <h1>Projects:</h1>
+    
+    <div class="table-responsive">
+        <table class="table table-hover ">
+            <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Total estimated
+                    </th>
+                    <th>
+                        Total worked
+                    </th>
+                    <th>
+                        
+                    </th>
+                    <th>
+                        
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for project in projects %}
+                <tr>
+                    <td>
+                        {{ loop.index }} 
+                    </td>
+                    <td>
+                        <a href="{{ path('task_show_by_project', {'project': project.id}) }}">{{ project.name }}</a> 
+                    </td>
+                    <td>
+                        {{ project.description }}
+                    </td>
+                    <td>
+                        {{ project.estimatedTasksHours }} : {{ project.estimatedTasksMinutes }}
+                    </td>
+                    <td>
+                        {{ project.workedTasksHours }} : {{ project.workedTasksMinutes }}
+                    </td>
+                    <td>
+                        <a href="{{ path('project_edit', {'project': project.id}) }}">Edit</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('project_delete', {'project': project.id}) }}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
