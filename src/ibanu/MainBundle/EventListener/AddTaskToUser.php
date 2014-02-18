@@ -19,19 +19,31 @@ class AddTaskToUser
     }
 
 
-    public function preUpdate(PreUpdateEventArgs $args)
+    public function preUpdate(PreUpdateEventArgs $eventArgs)
     {
-        $document = $args->getDocument();
-        
+        $document = $eventArgs->getDocument();
+      
         if ($document instanceof Task) {
+              
             if ($eventArgs->hasChangedField('is_active')) {
                 $securityContext    = $this->container->get('security.context');
                 $dm                 = $this->container->get('doctrine_mongodb.odm.document_manager');
-
                 $user = $securityContext->getToken()->getUser();
-                $user->setCurrentTask( $document );
-                $dm->persist($user);
-                $dm->flush();
+                
+                if ($eventArgs->getNewValue('is_active') === true) {
+                    if (!$user->hasTask( $document )) {
+                        $user->addCurrentTask( $document );
+                        $dm->persist($user);
+                        $dm->flush();
+                    }
+                } else {
+                    if ($user->hasTask( $document )) {
+                        $user->removeCurrentTask( $document );
+                        $dm->persist($user);
+                        $dm->flush();
+                    }
+                }
+               
             }
         }
     }

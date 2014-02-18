@@ -5,6 +5,7 @@ namespace ibanu\MainBundle\Document;
 
 use FOS\UserBundle\Document\User as BaseUser;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @MongoDB\Document
@@ -17,16 +18,16 @@ class User extends BaseUser
     protected $id;
     
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Task")
+     * @MongoDB\ReferenceMany(targetDocument="Task")
      */
-    private $current_task;
+    private $current_tasks;
     
     
 
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+        $this->current_tasks = new ArrayCollection();
     }
 
     /**
@@ -39,25 +40,48 @@ class User extends BaseUser
         return $this->id;
     }
 
+
     /**
-     * Set currentTask
+     * Add currentTask
      *
      * @param ibanu\MainBundle\Document\Task $currentTask
-     * @return self
      */
-    public function setCurrentTask(\ibanu\MainBundle\Document\Task $currentTask)
+    public function addCurrentTask(\ibanu\MainBundle\Document\Task $currentTask)
     {
-        $this->current_task = $currentTask;
-        return $this;
+        $this->current_tasks[] = $currentTask;
     }
 
     /**
-     * Get currentTask
+     * Remove currentTask
      *
-     * @return ibanu\MainBundle\Document\Task $currentTask
+     * @param ibanu\MainBundle\Document\Task $currentTask
      */
-    public function getCurrentTask()
+    public function removeCurrentTask(\ibanu\MainBundle\Document\Task $currentTask)
     {
-        return $this->current_task;
+        $this->current_tasks->removeElement($currentTask);
+    }
+
+    /**
+     * Get currentTasks
+     *
+     * @return Doctrine\Common\Collections\Collection $currentTasks
+     */
+    public function getCurrentTasks()
+    {
+        return $this->current_tasks;
+    }
+    
+    
+    public function hasTask(\ibanu\MainBundle\Document\Task $task)
+    {
+        if (null === $this->getCurrentTasks()) {
+            return false;
+        }
+        foreach ($this->getCurrentTasks() as $currentTask) {
+            if ($currentTask->getId() === $task->getId()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

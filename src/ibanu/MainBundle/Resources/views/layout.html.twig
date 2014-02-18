@@ -24,16 +24,12 @@
                 {% block user %}
                 
                     {% if app.user.username is defined %}
-                        <p class="bg-success">Hi {{ app.user.username }}!</p>
+                        <p class="text-success">Hi {{ app.user.username }}!</p>
                     {% else %}
                         <a href="{{ path('fos_user_security_login') }}">login</a>
                     {% endif %}
                         
-                    {% if app.user.getCurrentTask is not null %}
-                        You work now on {{ app.user.getCurrentTask.name }}
-                    {% else %}
-                        You have no task running now.
-                    {% endif %}   
+                    {{ render(controller('ibanuMainBundle:Home:currentTasks')) }} 
                         
                 {% endblock %}
             </div>

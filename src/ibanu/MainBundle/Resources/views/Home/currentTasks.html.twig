@@ -1,0 +1,10 @@
+
+    {% for task in currentTasks %}
+        <p class="text-primary">
+            You work now on {{ task.name }}
+        </p>
+    {% else %}
+        <p class="text-warning">
+            You have no task running now.
+        </p>
+    {% endfor %}  

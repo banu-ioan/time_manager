@@ -48,7 +48,7 @@ class TaskManager {
 
             $now    = new \DateTime();
             $interval = $now->diff($task->getStart());
-            $task->setWorked($task->getWorked() + $interval->format('%i'));
+            $task->setWorked($task->getWorked() + $interval->days * 24 * 60 + $interval->h * 60 + $interval->i);
 
             $this->dm->persist($task);
             $this->dm->flush();

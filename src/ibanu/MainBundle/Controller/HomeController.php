@@ -19,4 +19,15 @@ class HomeController extends Controller
     }
     
     
+    /**
+     * @Route("/current_tasks", name="current_tasks")
+     * @Template()
+     */
+    public function currentTasksAction()
+    {
+        $currentTasks   = $this->getUser()->getCurrentTasks();
+        
+        return array('currentTasks' => $currentTasks);
+    } 
+    
 }
